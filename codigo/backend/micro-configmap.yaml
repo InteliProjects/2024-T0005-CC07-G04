@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: micro-configmap
+data:
+  database_urlM: movel-service
+  database_urlF: fibra-service
+  database_urlU: user-service

@@ -1,0 +1,25 @@
+#Deployment das Pods. Cada deployment cria consigo a sua service, subindo a pod junto.
+
+## Deploymente do *barramento* da aplicação
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: barramento
+  labels:
+    apps: barramento-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: barramento
+  template:
+    metadata:
+      labels:
+        app: barramento
+    spec:
+      containers:
+        - name: barramento
+          image: thomazklifson/barramento:latest
+          ports:
+            - containerPort: 8079

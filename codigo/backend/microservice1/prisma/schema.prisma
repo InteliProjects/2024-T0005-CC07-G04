@@ -1,0 +1,38 @@
+// Definição do provedor do cliente Prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Configuração do banco de dados
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:Inteli123#4@vivouser.cdxad1iuggna.us-east-1.rds.amazonaws.com:5432/vivoUser"
+}
+
+// Definição do modelo de usuário
+model User {
+  // Identificador único do usuário
+  id                    String   @id @default(uuid()) @map("id")
+  // E-mail do usuário (deve ser único)
+  email                 String   @unique
+  // Nome do usuário
+  name                  String
+  // Data de criação do usuário (valor padrão: data atual)
+  createdAt             DateTime @default(now())
+  // Data de atualização do usuário (automática quando atualizada)
+  updatedAt             DateTime @updatedAt
+  // Senha do usuário
+  password              String
+  // Número de telefone do usuário (opcional)
+  phone                 String?
+  // Saldo atual do usuário (padrão: 0)
+  currentBalance        Float    @default(0)
+  // Total atual do Vivo Fibra do usuário (padrão: 0)
+  currentTotalVivoFibra Float    @default(0)
+  // Total atual do Vivo Móvel do usuário (padrão: 0)
+  currentTotalVivoMovel Float    @default(0)
+  // Planos Vivo Fibra do usuário (padrão: vazio)
+  planosVivoFibra       String[] @default([])
+  // Planos Vivo Móvel do usuário (padrão: vazio)
+  planosVivoMovel       String[] @default([])
+}

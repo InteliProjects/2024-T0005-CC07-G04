@@ -1,0 +1,58 @@
+#Deployment das Pods. Cada deployment cria consigo a sua service, subindo a pod junto.
+
+## Deploymente da *Vivo Móvel* 
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vivomovel-depl
+  labels:
+    app: vivomovel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vivomovel
+  template:
+    metadata:
+      labels:
+        app: vivomovel
+    spec:
+      containers:
+        - name: vivomovel
+          image: thomazklifson/vivomovel:v10
+          ports:
+            - containerPort: 8081
+          env:
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: secret-micro
+                  key: usernameMovel
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret-micro
+                  key: passwordMovel
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: secret-micro
+                  key: postgresUser
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: secret-micro
+                  key: hostMovel
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: movel-service
+spec:
+  selector:
+    app: vivomovel
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081

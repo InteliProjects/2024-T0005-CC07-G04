@@ -1,0 +1,58 @@
+#Deployment das Pods. Cada deployment cria consigo a sua service, subindo a pod junto.
+
+## Deploymente da *Vivo User* 
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vivouser-depl
+  labels:
+    app: vivouser
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vivouser
+  template:
+    metadata:
+      labels:
+        app: vivouser
+    spec:
+      containers:
+        - name: vivouser
+          image: thomazklifson/vivouser:entrega
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: secret-micro
+                  key: usernameUser
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret-micro
+                  key: passwordUser
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: secret-micro
+                  key: postgresUser
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: secret-micro
+                  key: hostUser
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+spec:
+  selector:
+    app: vivouser
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

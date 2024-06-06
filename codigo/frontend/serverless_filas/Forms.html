@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8">
+    <title>Feedbacks</title>
+</head>
+<body data-gr-ext-installed="" data-new-gr-c-s-check-loaded="14.994.0">
+    <header>
+        <h1>
+            Formulário de Feedbacks
+        </h1>
+    </header>
+    <nav></nav>
+    <main>
+        //Link do Lambda com as filas
+        <form action="https://9t5miehmvl.execute-api.us-east-1.amazonaws.com/DEV/sqs-lambda?MessageGroupId=oi&MessageDeduplicationId=oi2" method="get">
+        //Areas para o user preencher as informações
+            <label for="firstname">Primeiro Nome</label> <input id="firstname" name="firstname" placeholder="Insira seu primeiro nome" type="text" />
+            <label for="lastname">Sobrenome</label> <input id="lastname" name="lastname" placeholder="Insira seu sobrenome" type="text" />
+            <label for="tel">Telefone</label> <input id="tel" name="tel" placeholder="Insira seu telefone" type="text" />
+            <label for="message">Mensagem</label> <input id="message" name="message" placeholder="Insira seu feedback" type="text" />
+            <input type="submit" value="Submit"/>
+        </form>
+    </main>
+    <footer>
+        
+    </footer>
+</body>
+</html>

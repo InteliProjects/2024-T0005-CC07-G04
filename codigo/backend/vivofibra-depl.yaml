@@ -1,0 +1,58 @@
+#Deployment das Pods. Cada deployment cria consigo a sua service, subindo a pod junto.
+
+## Deploymente da *Vivo Fibra* 
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vivofibra-depl
+  labels:
+    apps: vivofibra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vivofibra
+  template:
+    metadata:
+      labels:
+        app: vivofibra
+    spec:
+      containers:
+        - name: vivofibra
+          image: thomazklifson/vivofibra:v10
+          ports:
+          - containerPort: 8082
+          env:
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: secret-micro
+                key: usernameFibra
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secret-micro
+                key: passwordFibra
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: secret-micro
+                key: postgresUser
+          - name: DB_HOST
+            valueFrom:
+              secretKeyRef:
+                name: secret-micro
+                key: hostFibra
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fibra-service
+spec:
+  selector:
+    app: vivofibra
+  ports:
+    - protocol: TCP
+      port: 8082
+      targetPort: 8082
